@@ -4,11 +4,11 @@ const morgan = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
 const connectDB = require('./config/db');
-const auth = require('./routes/auth');
+const auth = require('./routes/api/auth');
+const cors = require('cors');
 
 //LOAD CONFIG
 dotenv.config({ path: './config/config.env' });
-require('./config/passport')(passport);
 connectDB();
 
 const app = express();
@@ -16,6 +16,9 @@ const app = express();
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+app.use(express.json());
+app.use(cors());
 
 //SESSION MIDDLEWARE
 app.use(
@@ -31,7 +34,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //routes
-app.use('/auth', auth);
+app.use('/api/auth', auth);
+app.use('/api/users', require('./routes/api/users'));
 
 
 const PORT = process.env.PORT || 3000;
