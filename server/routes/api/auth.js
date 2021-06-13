@@ -4,8 +4,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const auth = require('../../middleware/auth');
 
-// @desc Auth with Google
-// @route GET /auth/google
 router.post('/', (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
