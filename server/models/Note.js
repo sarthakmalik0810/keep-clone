@@ -10,11 +10,6 @@ const NoteSchema = new Schema({
     type: Boolean,
     default: true,
     required: true
-  },
-  todoId: {
-    type: Schema.Types.ObjectId,
-    ref: 'todo',
-    required: true
   }
 })
 
