@@ -3,36 +3,23 @@ const router = express.Router();
 
 const ToDo = require('../../models/ToDo');
 const User = require('../../models/User');
-const Note = require('../../models/Note');
 const Label = require('../../models/Label');
 const auth = require('../../middleware/auth');
 
-router.post('/addTodo', auth, async (req, res) => {
+router.post('/', auth, async (req, res) => {
   try {
     const userId = req.user.id;
     const { title, color, isCheckboxMode, notes, labels } = req.body;
 
-    const todo = new ToDo({ title, color, isCheckboxMode, userId });
+    const todo = new ToDo({ title, color, isCheckboxMode, userId, notes });
     await todo.save();
-    const todoId = todo.id;
 
     const user = await User.findById({ _id: userId });
     user.todos.push(todo);
     await user.save();
 
-    if (notes?.length > 0) {
-      notes.forEach(async (noteObj) => {
-        const newNote = new Note({
-          todoId,
-          ...noteObj,
-        });
-        await newNote.save();
-        todo.notes.push(newNote);
-        await todo.save();
-      });
-    }
     if (labels?.length > 0) {
-      labels.forEach(async (labelObj) => {
+      labels.forEach(async labelObj => {
         await Label.findOneAndUpdate(
           { _id: labelObj.id },
           { $push: { todos: todo } }
@@ -40,7 +27,44 @@ router.post('/addTodo', auth, async (req, res) => {
       });
     }
 
-    res.status(200).json({success: true, data: todo});
+    res.status(200).json({ success: true, data: todo });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+});
+
+router.delete('/', auth, async (req, res) => {
+  try {
+    const todo = await ToDo.findByIdAndDelete(req.body.todoId);
+
+    await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        $pull: {
+          todos: req.body.todoId,
+        },
+      },
+      { useFindAndModify: true }
+    );
+
+    res.status(202).json({ success: true, data: todo });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+});
+
+router.patch('/', auth, async (req, res) => {
+  try {
+    const { _id: todoId } = req.body;
+    const todo = req.body;
+    const updatedToDo = await ToDo.findByIdAndUpdate(todoId, todo, {
+      new: true, useFindAndModify: false
+    });
+    if (updatedToDo) {
+      res.status(200).json({ success: true, data: updatedToDo });
+    } else {
+      res.status(404).json({ success: false, message: 'Not Found' });
+    }
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
   }

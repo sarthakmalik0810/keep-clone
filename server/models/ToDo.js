@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Note = require('./Note')
 
 const ToDoSchema = new Schema({
   title: String,
@@ -12,10 +13,7 @@ const ToDoSchema = new Schema({
     default: false,
     required: true
   },
-  notes: [{
-    type: Schema.Types.ObjectId,
-    ref: 'note'
-  }],
+  notes: [Note],
   labels: [{
     type: Schema.Types.ObjectId,
     ref: 'label'
