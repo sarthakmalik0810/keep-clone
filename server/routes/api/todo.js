@@ -11,7 +11,7 @@ router.post('/', auth, async (req, res) => {
     const userId = req.user.id;
     const { title, color, isCheckboxMode, notes, labels } = req.body;
 
-    const todo = new ToDo({ title, color, isCheckboxMode, userId, notes });
+    const todo = new ToDo({ title, color, isCheckboxMode, userId, notes, labels });
     await todo.save();
 
     const user = await User.findById({ _id: userId });
@@ -21,7 +21,7 @@ router.post('/', auth, async (req, res) => {
     if (labels?.length > 0) {
       labels.forEach(async labelObj => {
         await Label.findOneAndUpdate(
-          { _id: labelObj.id },
+          { _id: labelObj},
           { $push: { todos: todo } }
         );
       });
@@ -47,6 +47,20 @@ router.delete('/', auth, async (req, res) => {
       { useFindAndModify: true }
     );
 
+    if(todo.labels?.length > 0) {
+      todo.labels.forEach(async (label) => {
+        await Label.findByIdAndUpdate(
+          label,
+          {
+            $pull: {
+              todos: req.body.todoId
+            }
+          },
+          { useFindAndModify: true }
+        )
+      })
+    }
+
     res.status(202).json({ success: true, data: todo });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
@@ -60,6 +74,7 @@ router.patch('/', auth, async (req, res) => {
     const updatedToDo = await ToDo.findByIdAndUpdate(todoId, todo, {
       new: true, useFindAndModify: false
     });
+    
     if (updatedToDo) {
       res.status(200).json({ success: true, data: updatedToDo });
     } else {

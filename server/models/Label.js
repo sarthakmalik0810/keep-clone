@@ -4,7 +4,8 @@ const { Schema } = require('mongoose');
 const LabelSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    required: "Please enter a name",
+    trim: true
   },
   todos: [
     {

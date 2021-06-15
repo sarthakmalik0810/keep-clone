@@ -37,6 +37,7 @@ app.use(passport.session());
 app.use('/api/auth', auth);
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/todo', require('./routes/api/todo'));
+app.use('/api/labels', require('./routes/api/labels'));
 
 
 const PORT = process.env.PORT || 3000;
