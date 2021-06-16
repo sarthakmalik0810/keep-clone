@@ -17,11 +17,11 @@ router.post('/', auth, async (req, res) => {
     currentUser.labels.push(label);
     await currentUser.save();
 
-    const savedLabel = await Label.findById({ _id: label._id }).populate(
-      'userId'
-    );
+    // const savedLabel = await Label.findById({ _id: label._id }).populate(
+    //   'userId'
+    // );
 
-    res.status(200).json({ success: true, data: savedLabel });
+    res.status(200).json({ success: true, data: label });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
   }
