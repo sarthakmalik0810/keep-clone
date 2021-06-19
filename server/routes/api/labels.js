@@ -6,6 +6,21 @@ const User = require('../../models/User');
 const Label = require('../../models/Label');
 const auth = require('../../middleware/auth');
 
+router.get('/get-labels', auth, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const labels = await Label.find({
+      userId: {
+        $in: userId,
+      },
+    });
+
+    res.status(200).json({ success: true, data: labels });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+});
+
 router.post('/', auth, async (req, res) => {
   try {
     const user = req.user;
@@ -40,7 +55,7 @@ router.delete('/', auth, async (req, res) => {
 
     const todos = label.todos;
     if (todos.length > 0) {
-      todos.forEach(async (todo) => {
+      todos.forEach(async todo => {
         await ToDo.findByIdAndUpdate(
           todo,
           {

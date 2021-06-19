@@ -8,17 +8,20 @@ const auth = require('../../middleware/auth');
 
 router.get('/get-todos', auth, async (req, res) => {
   const userId = req.user.id;
+  try {
+    const todos = await ToDo.find({
+      userId: {
+        $in: userId,
+      },
+    }).populate({
+      path: 'labels',
+      select: '_id name',
+    });
 
-  const todos = await ToDo.find({
-    userId: {
-      $in: userId,
-    },
-  }).
-  populate({
-    path: 'labels', select: '_id name'
-  });
-
-  res.status(200).json({ success: true, data: todos });
+    res.status(200).json({ success: true, data: todos });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
 });
 
 router.post('/', auth, async (req, res) => {
