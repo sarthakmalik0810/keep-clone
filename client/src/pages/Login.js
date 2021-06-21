@@ -1,9 +1,22 @@
-import React from 'react'
+import { makeStyles } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import LoginForm from '../components/login/LoginForm';
+
+const useStyles = makeStyles(theme => ({
+  pageWrapper : {
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: theme.palette.background.default
+  }
+}))
 
 function Login() {
   return (
     <div>
-      Login Form
+      <Container maxWidth="md">
+        <LoginForm />
+      </Container>
     </div>
   )
 }
