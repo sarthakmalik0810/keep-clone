@@ -1,13 +1,7 @@
-import { amber, red } from '@material-ui/core/colors';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { amber, red, grey } from '@material-ui/core/colors';
+import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 
-import {
-  MetropolisBold,
-  MetropolisRegular,
-  RobotoBold,
-  RobotoMedium,
-  RobotoRegular,
-} from '../assets/fonts';
+import Fonts from '../assets/fonts';
 
 const fontFamilyRoboto = {
   fontFamily: [
@@ -35,7 +29,7 @@ const lightTheme = createMuiTheme({
   type: 'light',
   palette: {
     primary: {
-      main: 'FFF',
+      main: '#FFF',
     },
     secondary: {
       main: amber[500],
@@ -72,11 +66,11 @@ const lightTheme = createMuiTheme({
     MuiCssBaseline: {
       '@global': {
         '@font-face': [
-          MetropolisBold,
-          MetropolisRegular,
-          RobotoBold,
-          RobotoMedium,
-          RobotoRegular,
+          Fonts.MetropolisBold,
+          Fonts.MetropolisRegular,
+          Fonts.RobotoBold,
+          Fonts.RobotoMedium,
+          Fonts.RobotoRegular,
         ],
       },
     },
@@ -204,5 +198,5 @@ const darkMuiTheme = createMuiTheme({
   },
 });
 
-export const light = responsiveFontSizes(lightMuiTheme);
+export const light = responsiveFontSizes(lightTheme);
 export const dark = responsiveFontSizes(darkMuiTheme);

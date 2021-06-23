@@ -31,4 +31,4 @@ const useInputValidation = validateValue => {
   };
 };
 
-export default useInput;
+export default useInputValidation;
