@@ -15,12 +15,14 @@ router.post('/', (req, res) => {
       return res.status(400).json({ msg: 'User Does not exist' });
     }
 
+    let expiration = 7200
+
     bcrypt.compare(password, user.password).then(isMatch => {
       if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
       jwt.sign(
         { id: user.id },
         process.env.jwtSecret,
-        { expiresIn: 7200 },
+        { expiresIn: expiration },
         (err, token) => {
           if (err) throw err;
           res.json({
@@ -29,6 +31,7 @@ router.post('/', (req, res) => {
               id: user.id,
               name: user.name,
               email: user.email,
+              expiresIn: expiration
             },
           });
         }

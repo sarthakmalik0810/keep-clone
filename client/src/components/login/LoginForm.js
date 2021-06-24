@@ -92,8 +92,12 @@ function LoginForm() {
     },
   };
 
-  const handleClickShowPassword = () => {
+  const clickShowPasswordHandler = () => {
     setShowPassword(show => !show);
+  };
+
+  const mouseDownHandler = event => {
+    event.preventDefault();
   };
 
   const loginHandler = event => {
@@ -135,20 +139,24 @@ function LoginForm() {
           onChange={passwordInputChangedHandler}
           onBlur={passwordInputOnBlurHandler}
           fullWidth
+          helperText="Minimum 6 characters"
           InputLabelProps={inputLabelProps}
-          InputProps={inputProps}
+          InputProps={{
+            ...inputProps,
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={clickShowPasswordHandler}
+                  onMouseDown={mouseDownHandler}
+                  aria-label="toggle password visibility"
+                  edge="end"
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
           margin="normal"
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                onClick={handleClickShowPassword}
-                aria-label="toggle password visibility"
-                edge="end"
-              >
-                {showPassword ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
         />
         <Button
           classes={{
