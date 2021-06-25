@@ -6,6 +6,7 @@ import {
   IconButton,
   Button,
   makeStyles,
+  CircularProgress
 } from '@material-ui/core/';
 
 import Visibility from '@material-ui/icons/Visibility';
@@ -53,7 +54,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function LoginForm() {
+function LoginForm({ status, onLoginHandler }) {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const {
@@ -102,6 +103,10 @@ function LoginForm() {
 
   const loginHandler = event => {
     event.preventDefault();
+    if (!formIsValid) {
+      return;
+    }
+    onLoginHandler(emailInputValue, passwordInputValue);
   };
 
   return (
@@ -167,8 +172,9 @@ function LoginForm() {
           color="secondary"
           variant="contained"
           disabled={!formIsValid}
+          type="submit"
         >
-          LOG IN
+          {status === 'pending' ? <CircularProgress /> : `Log In`}
         </Button>
       </form>
     </Paper>

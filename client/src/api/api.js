@@ -1,21 +1,19 @@
-const BACKEND_URL = 'https://localhost:3000/api';
-import axios from 'axios'
+import axios from 'axios';
+const BACKEND_URL = 'http://localhost:3000';
 
-const login = async (email, password) => {
-  let user = {email, password};
+export const login = async ({ email, password }) => {
+  console.log(email, password);
   let config = {
     method: 'post',
     url: `${BACKEND_URL}/api/auth/`,
-    headers: {'Content-Type': 'application/json'}
+    headers: { 'Content-Type': 'application/json' },
+    data: {
+      email: email,
+      password: password,
+    },
+  };
+  const response = await axios(config);
+  if (response.status === 200) {
+    console.log(response.data);
   }
-  try {
-    const response = await axios.post(config, user);
-    if(response.status === 200) {
-      console.log(response.data);
-    }
-  } catch (err) {
-    console.log(err.message)
-  }
-  
-
-}
+};
