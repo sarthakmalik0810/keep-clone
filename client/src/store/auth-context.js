@@ -13,7 +13,7 @@ import {
 const AuthContext = React.createContext({
   token: '',
   isLoggedIn: false,
-  login: ({ token, user }) => {},
+  login: () => {},
   logout: () => {},
 });
 
@@ -68,15 +68,17 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, []);
 
-  const loginHandler = ({ token, user }) => {
+  const loginHandler = useCallback((token, expiresIn) => {
+    console.log('login Handler runs');
+    console.log(token, expiresIn);
     setToken(token);
     saveUser(token);
-    setExpirationTime(user.expiresIn);
+    setExpirationTime(expiresIn);
 
-    const remainingTime = calculateRemainingTime(user.expiresIn);
+    const remainingTime = calculateRemainingTime(expiresIn);
 
     logoutTimer = setTimeout(logoutHandler, remainingTime);
-  };
+  }, [logoutHandler]);
 
   useEffect(() => {
     if (tokenData) {

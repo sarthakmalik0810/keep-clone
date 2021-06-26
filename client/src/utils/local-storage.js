@@ -1,14 +1,19 @@
-const storageKeyToken = 'keepCloneUserToken';
-const storageKeyDarkMode = 'keepCloneDarkMode';
-const storageKeyListMode = 'keepCloneListMode';
-const storageKeyExpirationTime = 'keepCloneExpirationTime';
+const storageKeyToken = 'keepcloneusertoken';
+const storageKeyDarkMode = 'keepclonedarkMode';
+const storageKeyListMode = 'keepclonelistMode';
+const storageKeyExpirationTime = 'keepcloneexpirationtime';
 
-export const saveUser = user =>
-  localStorage.setItem(storageKeyToken, JSON.stringify(user));
+export const saveUser = user => {
+  console.log(typeof user);
+  localStorage.setItem(storageKeyToken, user);
+};
 
-export const getUser = () => JSON.parse(localStorage.getItem(storageKeyToken));
+export const getUser = () => localStorage.getItem(storageKeyToken);
 
-export const removeUser = () => localStorage.removeItem(storageKeyToken);
+export const removeUser = () => {
+  console.log('remove user runs')
+  localStorage.removeItem(storageKeyToken);
+};
 
 export const setExpirationTime = time =>
   localStorage.setItem(storageKeyExpirationTime, JSON.stringify(time));
