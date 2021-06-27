@@ -28,6 +28,14 @@ const UserSchema = new Schema(
         ref: 'label',
       },
     ],
+    isDarkMode: {
+      type: Boolean,
+      default: false
+    },
+    isListMode: {
+      type: Boolean,
+      default: false
+    }
   },
   {
     timestamps: {

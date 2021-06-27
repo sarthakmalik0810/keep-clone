@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react';
+import { useContext } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';

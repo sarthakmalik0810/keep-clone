@@ -43,7 +43,7 @@ router.post('/', (req, res) => {
 //@route GET api/auth/user
 router.get('/user', auth, (req, res) => {
   User.findById(req.user.id)
-    .select('-password')
+    .select('-password -todos -_id -labels')
     .then(user => res.json(user));
 });
 

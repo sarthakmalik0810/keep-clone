@@ -11,6 +11,36 @@ export const login = async ({ email, password }) => {
       password: password,
     },
   };
-    const response = await axios(config);
-    return response.data;
+  const response = await axios(config);
+  return response.data;
+};
+
+export const fetchTodos = async token => {
+  let config = {
+    method: 'get',
+    url: `${BACKEND_URL}/api/todo/get-todos`,
+    headers: { 'x-auth-token': token },
+  };
+  const { data } = await axios(config);
+  return data;
+};
+
+export const fetchLabels = async token => {
+  let config = {
+    method: 'get',
+    url: `${BACKEND_URL}/api/labels/get-labels`,
+    headers: { 'x-auth-token': token },
+  };
+  const { data } = await axios(config);
+  return data;
+};
+
+export const fetchUser = async token => {
+  let config = {
+    method: 'get',
+    url: `${BACKEND_URL}/api/auth/user`,
+    headers: { 'x-auth-token': token },
+  };
+  const { data } = await axios(config);
+  return data;
 };

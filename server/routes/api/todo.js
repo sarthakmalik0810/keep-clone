@@ -9,7 +9,7 @@ const auth = require('../../middleware/auth');
 router.get('/get-todos', auth, async (req, res) => {
   const userId = req.user.id;
   try {
-    const todos = await ToDo.find({
+    const todos = ToDo.find({
       userId: {
         $in: userId,
       },
@@ -17,8 +17,15 @@ router.get('/get-todos', auth, async (req, res) => {
       path: 'labels',
       select: '_id name',
     });
+    
+    const fetchedTodos = await todos;
 
-    res.status(200).json({ success: true, data: todos });
+    res.status(200).json({
+      success: true,
+      data: {
+        todos: fetchedTodos,
+      },
+    });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
   }
