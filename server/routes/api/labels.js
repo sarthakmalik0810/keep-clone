@@ -6,7 +6,7 @@ const User = require('../../models/User');
 const Label = require('../../models/Label');
 const auth = require('../../middleware/auth');
 
-router.get('/get-labels', auth, async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const userId = req.user.id;
     const labels = await Label.find({

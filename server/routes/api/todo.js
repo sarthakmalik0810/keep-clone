@@ -6,7 +6,7 @@ const User = require('../../models/User');
 const Label = require('../../models/Label');
 const auth = require('../../middleware/auth');
 
-router.get('/get-todos', auth, async (req, res) => {
+router.get('/', auth, async (req, res) => {
   const userId = req.user.id;
   try {
     const todos = ToDo.find({
