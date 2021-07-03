@@ -6,6 +6,7 @@ import NavDrawer from '../components/navdrawer/NavDrawer';
 import NotesArea from '../components/todo/NotesArea';
 import Loading from '../components/UI/Loading';
 import useUser from '../hooks/use-user';
+import { UIContextProvider } from '../store/ui-context';
 import { dark, light } from '../styles/theme';
 
 function Main() {
@@ -15,14 +16,16 @@ function Main() {
       {userStatus === 'loading' && <Loading />}
       {user && userStatus === 'success' && (
         <ThemeProvider theme={user.isDarkMode ? dark : light}>
-          <CssBaseline />
-          <NavBar />
-          <NavDrawer />
-          <Container maxwidth={false}>
-            <Box mt={8}>
-              <NotesArea />
-            </Box>
-          </Container>
+          <UIContextProvider>
+            <CssBaseline />
+            <NavBar />
+            <NavDrawer />
+            <Container maxwidth={`false`}>
+              <Box mt={8}>
+                <NotesArea />
+              </Box>
+            </Container>
+          </UIContextProvider>
         </ThemeProvider>
       )}
     </>

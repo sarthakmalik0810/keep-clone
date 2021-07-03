@@ -7,7 +7,7 @@ const BACKEND_URL = 'http://localhost:3000';
 export default function useLabels() {
   let config = {
     method: 'get',
-    url: `${BACKEND_URL}/api/todo/`,
+    url: `${BACKEND_URL}/api/labels/`,
     headers: { 'x-auth-token': getUser() },
   };
 

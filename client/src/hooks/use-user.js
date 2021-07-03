@@ -14,5 +14,7 @@ export default function useUser() {
   return useQuery('user', async () => {
     const { data } = await axios(config);
     return data;
+  }, {
+    refetchOnWindowFocus: false
   });
 }
