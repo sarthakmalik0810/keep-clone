@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getUser } from '../utils/local-storage';
 const BACKEND_URL = 'http://localhost:3000';
 
 export const login = async ({ email, password }) => {
@@ -44,3 +45,14 @@ export const fetchUser = async token => {
   const { data } = await axios(config);
   return data;
 };
+
+export async function updateUserApi (user) {
+  let config = {
+    method: 'patch',
+    url: `${BACKEND_URL}/api/auth/user`,
+    headers: { 'x-auth-token': getUser() },
+    data: user
+  }
+  const {data} = await axios(config);
+  return data;
+}

@@ -3,13 +3,12 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useMediaQuery } from '@material-ui/core';
 import { useUIStore } from '../../store/ui-context';
 import useUser from '../../hooks/use-user';
-import { useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import useTodos from '../../hooks/use-todos';
 
 function NotesArea() {
   const theme = useTheme();
-  const queryClient = useQueryClient();
-  const user = queryClient.getQueryData('user');
+  const {data: user, status: userStatus} = useUser();
   const {data: todos, status: todosStatus} = useTodos();
   let todosArray;
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));

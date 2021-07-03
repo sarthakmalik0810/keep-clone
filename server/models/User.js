@@ -30,7 +30,7 @@ const UserSchema = new Schema(
     ],
     isDarkMode: {
       type: Boolean,
-      default: false
+      default: false,
     },
     isListMode: {
       type: Boolean,

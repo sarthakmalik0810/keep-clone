@@ -4,14 +4,12 @@ const storageKeyListMode = 'keepclonelistMode';
 const storageKeyExpirationTime = 'keepcloneexpirationtime';
 
 export const saveUser = user => {
-  console.log(typeof user);
   localStorage.setItem(storageKeyToken, user);
 };
 
 export const getUser = () => localStorage.getItem(storageKeyToken);
 
 export const removeUser = () => {
-  console.log('remove user runs')
   localStorage.removeItem(storageKeyToken);
 };
 

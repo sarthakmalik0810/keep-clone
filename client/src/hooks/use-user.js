@@ -15,6 +15,7 @@ export default function useUser() {
     const { data } = await axios(config);
     return data;
   }, {
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
+    staleTime: 10000
   });
 }
