@@ -5,6 +5,7 @@ import {
   IconButton,
   useTheme,
   Typography,
+  useScrollTrigger,
 } from '@material-ui/core';
 import {
   Menu,
@@ -21,11 +22,17 @@ import { useMutation, useQueryClient } from 'react-query';
 import { updateUserApi } from '../../api/api';
 import useUser from '../../hooks/use-user';
 import AuthContext from '../../store/auth-context';
+import { useUIStore } from '../../store/ui-context';
 import ProfilePopover from './ProfilePopover';
 
 const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1,
+  },
+  containerBorder: {
+    borderBottomStyle: 'solid',
+    borderBottomWidth: '1px',
+    borderBottomColor: theme.palette.divider,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -43,9 +50,14 @@ function NavBar() {
   const profileIconRef = useRef();
   const theme = useTheme();
   const classes = useStyles();
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+  });
+  const { toggleNavBar } = useUIStore();
   const queryClient = useQueryClient();
-  const { data: user } = useUser();
-  const {logout: logoutContext} = useContext(AuthContext)
+  const { data: user, status: userStatus } = useUser();
+  const { logout: logoutContext } = useContext(AuthContext);
   const [showProfilePopover, setShowProfilePopover] = useState(false);
   const updateUser = useMutation(updateUserApi, {
     onMutate: user => {
@@ -89,12 +101,16 @@ function NavBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar
+        elevation={trigger ? 4 : 0}
+        className={trigger ? null : classes.containerBorder}
+      >
         <Toolbar>
           <IconButton
             edge="start"
             className={classes.menuButton}
             aria-label="open drawer"
+            onClick={toggleNavBar}
           >
             <Menu htmlColor={theme.custom.palette.iconColor} />
           </IconButton>
@@ -118,7 +134,8 @@ function NavBar() {
           onClose={() => setShowProfilePopover(false)}
           user={user}
           onLogout={logoutContext}
-         />
+          status={userStatus}
+        />
       </AppBar>
     </div>
   );

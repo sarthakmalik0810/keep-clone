@@ -5,12 +5,14 @@ import { useUIStore } from '../../store/ui-context';
 import useUser from '../../hooks/use-user';
 import { useMutation, useQueryClient } from 'react-query';
 import useTodos from '../../hooks/use-todos';
+import useLabels from '../../hooks/use-labels';
 
 function NotesArea() {
   const theme = useTheme();
   const {data: user, status: userStatus} = useUser();
   const {data: todos, status: todosStatus} = useTodos();
-  let todosArray;
+  const {data: labels, status: labelsStatus} = useLabels();
+  const { isNavBarOpen, noteInEditMode, selectedLabelId } = useUIStore();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
   const isTablet = useMediaQuery(theme.breakpoints.up('sm'));
   const isLaptop = useMediaQuery(theme.breakpoints.up('md'));
@@ -34,7 +36,6 @@ function NotesArea() {
     : isTablet
     ? '480px'
     : '100%';
-  const { isNavBarOpen, noteInEditMode, selectedLabelId } = useUIStore();
   width = user.isListMode
     ? isLaptop || isLaptopL
       ? theme.spacing(75)

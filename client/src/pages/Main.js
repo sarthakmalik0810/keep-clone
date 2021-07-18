@@ -20,7 +20,7 @@ function Main() {
             <CssBaseline />
             <NavBar />
             <NavDrawer />
-            <Container maxwidth={`false`}>
+            <Container maxWidth={false}>
               <Box mt={8}>
                 <NotesArea />
               </Box>

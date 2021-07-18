@@ -6,9 +6,10 @@ import {
   Popover,
   Avatar,
   Typography,
-  Divider, Button
+  Divider,
+  Button,
 } from '@material-ui/core';
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 import { Face } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
@@ -57,10 +58,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: '0.8rem',
     fontWeight: 500,
     textTransform: 'none',
-  }
+  },
 }));
 
-function ProfilePopover({ anchorEl, isOpen, onClose, user, onLogout }) {
+function ProfilePopover({ anchorEl, isOpen, onClose, user, onLogout, status }) {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
@@ -69,8 +70,8 @@ function ProfilePopover({ anchorEl, isOpen, onClose, user, onLogout }) {
   const logoutHandler = () => {
     onLogout();
     history.replace('/login');
-    return(<></>)
-  }
+    return <></>;
+  };
 
   return (
     <div>
@@ -88,7 +89,7 @@ function ProfilePopover({ anchorEl, isOpen, onClose, user, onLogout }) {
           horizontal: 'center',
         }}
         classes={{
-        paper: classes.popover
+          paper: classes.popover,
         }}
       >
         <div className={classes.container}>
@@ -116,7 +117,15 @@ function ProfilePopover({ anchorEl, isOpen, onClose, user, onLogout }) {
         </div>
         <Divider />
         <div className={classes.bar}>
-          <Button variant="outlined" size="small" onClick={logoutHandler} classes={{ root: classes.buttonSignout }}>Sign out</Button>
+          <Button
+            disabled={status === 'loading'}
+            variant="outlined"
+            size="small"
+            onClick={logoutHandler}
+            classes={{ root: classes.buttonSignout }}
+          >
+            Sign out
+          </Button>
         </div>
       </Popover>
     </div>

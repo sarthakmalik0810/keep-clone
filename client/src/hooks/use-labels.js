@@ -13,6 +13,6 @@ export default function useLabels() {
 
   return useQuery('labels', async () => {
     const { data } = await axios(config);
-    return data;
+    return data.data;
   });
 }
